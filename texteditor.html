@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div class="editor-container">
+        <div class="controls">
+            <label for="font-family">Font:</label>
+            <select id="font-family">
+                <option value="Arial">Arial</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+            </select>
+            <label for="font-size">Size:</label>
+            <select id="font-size">
+                <option value="12px">12px</option>
+                <option value="14px">14px</option>
+                <option value="16px">16px</option>
+                <option value="18px">18px</option>
+                <option value="20px">20px</option>
+            </select>
+            <label>
+                <input type="checkbox" id="italic"> Italic
+            </label>
+        </div>
+        <textarea id="text-editor" placeholder="Start typing..."></textarea>
+        <div class="buttons">
+            <button class="reset" onclick="resetEditor()">Reset</button>
+            <button onclick="saveEditor()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        const textArea = document.getElementById('text-editor');
+        const fontFamilySelect = document.getElementById('font-family');
+        const fontSizeSelect = document.getElementById('font-size');
+        const italicCheckbox = document.getElementById('italic');
+
+        fontFamilySelect.addEventListener('change', () => {
+            textArea.style.fontFamily = fontFamilySelect.value;
+        });
+
+        fontSizeSelect.addEventListener('change', () => {
+            textArea.style.fontSize = fontSizeSelect.value;
+        });
+
+        italicCheckbox.addEventListener('change', () => {
+            textArea.style.fontStyle = italicCheckbox.checked ? 'italic' : 'normal';
+        });
+
+        function resetEditor() {
+            textArea.style.fontFamily = 'Arial';
+            textArea.style.fontSize = '16px';
+            textArea.style.fontStyle = 'normal';
+            fontFamilySelect.value = 'Arial';
+            fontSizeSelect.value = '16px';
+            italicCheckbox.checked = false;
+        }
+
+        function saveEditor() {
+            const text = textArea.value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'text-editor-content.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
